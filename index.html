@@ -3,63 +3,73 @@
 :root{--bg:#f6f7f9;--card:#fff;--tx:#1c1f24;--sub:#6a717c;--ac:#d9262c;--bd:#e3e6ea;--hl:rgba(217,38,44,.08)}
 @media(prefers-color-scheme:dark){:root{--bg:#111316;--card:#1b1e23;--tx:#eceef1;--sub:#9aa2ad;--bd:#2b3038;--hl:rgba(255,90,95,.12)}}
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.7 -apple-system,"Hiragino Sans",sans-serif}
-main{max-width:1100px;margin:auto;padding:24px 16px 60px}h1{font-size:25px;margin:0}
+main{max-width:1180px;margin:auto;padding:24px 16px 60px}h1{font-size:25px;margin:0}
 h2{font-size:18px;margin:28px 0 8px;border-left:4px solid var(--ac);padding-left:10px}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:10px 0;overflow-x:auto}
 .sub,.note{color:var(--sub);font-size:13px}table{width:100%;border-collapse:collapse;font-size:15px}
-th,td{padding:8px;border-bottom:1px solid var(--bd);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--card)}th{color:var(--sub);font-size:13px;font-weight:600}
-.ctl{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-select{padding:8px;font-size:15px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)}input[type=checkbox]{width:20px;height:20px;vertical-align:middle}
-.seg{display:inline-flex;border:1px solid var(--bd);border-radius:8px;overflow:hidden}.seg button{border:0;background:var(--bg);color:var(--tx);padding:8px 14px;font-size:15px;cursor:pointer}.seg button.on{background:var(--ac);color:#fff}
-td.na{color:var(--sub)}tr.sel td{background:var(--hl)}b.m{font-size:16px}
+th,td{padding:8px;border-bottom:1px solid var(--bd);text-align:right;white-space:nowrap;vertical-align:top}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--card);z-index:1}th{color:var(--sub);font-size:13px;font-weight:600}
+.ctl{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center}
+select{padding:7px;font-size:14px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);max-width:100%}input[type=checkbox]{width:20px;height:20px;vertical-align:middle}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--bd);border-radius:8px;overflow:hidden}.seg button{border:0;background:var(--bg);color:var(--tx);padding:8px 13px;font-size:15px;cursor:pointer}.seg button.on{background:var(--ac);color:#fff}
+td.na{color:var(--sub)}tr.sel td{background:var(--hl)}b.m{font-size:16px}td select{width:100%;min-width:150px}
 </style></head><body><main>
-<h1>テスラ ローン比較(Model 3 / Model Y)</h1>
-<div class="sub">月額はテスラ公式サイトの見積もり画面の表示値(2026年10月12日取得)。標準ホイール・内装ブラック・金利2.9%(提携SMBC)・新車</div>
+<h1>テスラ ローン比較(Model 3 / Model Y・新車)</h1>
+<div class="sub">テスラ公式サイト(2026年10月12日)の見積もりデータに基づく。金利2.9%(提携SMBC)</div>
 
 <h2>条件</h2>
 <div class="card ctl">
 <span class="seg" id="model"><button data-m="3" class="on">Model 3</button><button data-m="Y">Model Y</button><button data-m="all">両方</button></span>
-<label>外装色 <select id="color">
-<option value="0">ステルスグレー(標準) +0円</option>
-<option value="126000" selected>ダイヤモンドブラック +126,000円</option>
-<option value="m126000">マリンブルー +126,000円(Model 3のみ)</option>
-<option value="189000">パールホワイト マルチコート +189,000円</option>
-<option value="y189000">グレイシャーブルー +189,000円(Model Yのみ)</option>
-<option value="269000">クイックシルバー/コズミックシルバー(Y L) +269,000円</option>
-<option value="269000">ウルトラレッド +269,000円</option></select></label>
-<label><input type="checkbox" id="eap" checked> エンハンスト オートパイロット +436,000円</label>
 <label>頭金 <select id="down"></select></label>
-<span class="seg" id="term"><button data-t="0">36回</button><button data-t="1">48回</button><button data-t="2" class="on">60回</button></span>
+<span class="seg" id="term"><button data-t="0">一括</button><button data-t="36">36回</button><button data-t="48">48回</button><button data-t="60" class="on">60回</button><button data-t="120">120回</button></span>
+<label><input type="checkbox" id="eapAll" checked> エンハンスト オートパイロット(+436,000円)を全グレードに</label>
 </div>
 
-<h2>グレード比較</h2>
+<h2>グレードと構成(グレードごとに色・ホイール・内装を選べます)</h2>
 <div class="card"><table id="spec"></table>
-<p class="note">諸費用=ジャックス手数料212,000円+登録・書類費用100,000円+注文手数料15,000円(公式ページ内のデータ)。国の補助金127万円は登録後交付で、月額には反映されていません。</p></div>
+<p class="note">諸費用: ジャックス手数料212,000円(ローン時・借入に含む)、登録・書類費用100,000円、注文手数料15,000円(公式データ)。国の補助金127万円は登録後に交付され、表の金額には反映されていません。</p></div>
 
-<h2>月々の支払い比較</h2>
+<h2 id="payTitle">月々の支払い</h2>
 <div class="card"><table id="pay"></table>
-<p class="note" id="dnote"></p>
-<p class="note">「—」は公式で選べない据置率、色が選べないグレード、または頭金が上限(車両+オプションの50%と仮定)を超える場合。据置率=最終回に残す割合(払う/返却/乗り換え)。※据置価格での買取は保証されません。</p></div>
+<p class="note" id="pnote"></p></div>
+<p class="note">月額の出し方: 公式見積もりページ内の計算処理に、全グレード・全色・全ホイール・全内装・オートパイロット有無の全240構成 × 頭金0〜450万円(10万円刻み) × 36/48/60/120回 × 全据置率 の計約21万通りを入力し、このページの計算(月初払い・月利2.9%/12・100円単位切り上げ、借入額=車両価格+99,999円−頭金+212,000円、据置額=(車両価格+99,999円)×据置率)と1円の違いもないことを全件確認済みです。頭金の上限は(車両価格+99,999円)の50%(公式の上限)。120回は据置率0%のみ(公式)。※据置価格での買取は保証されません。実際の金利・条件はローン審査で決まります。</p>
 <script>
+const P3={PN01:["ステルスグレー",0],PB02:["マリンブルー",126000],PX02:["ダイヤモンドブラック",126000],PPSW:["パールホワイト マルチコート",189000],PN00:["クイックシルバー",269000],PR01:["ウルトラレッド",269000]};
+const PY={PN01:["ステルスグレー",0],PX02:["ダイヤモンドブラック",126000],PB01:["グレイシャーブルー",189000],PPSW:["パールホワイト マルチコート",189000],PN00:["クイックシルバー",269000],PR01:["ウルトラレッド",269000]};
+const PYL=Object.assign({},PY);delete PYL.PN00;PYL.PN03=["コズミックシルバー",269000];const PYLo={PN01:PY.PN01,PX02:PY.PX02,PB01:PY.PB01,PPSW:PY.PPSW,PN03:PYL.PN03,PR01:PY.PR01};
 const T=[
-{m:"3",n:"Model 3 RWD",p:5313000,s:["594km","201km/h","6.1秒"],D:{"0_0":"1195 1124 1052 980 908 836 764 692 620 549 477|910 856 803 750 697 644 591 538 485|738 696 654 612 571 529 487","0_1":"1322 1244 1166 1089 1011 933 856 778 700 623 545|1006 948 891 833 776 719 661 604 546|816 771 726 680 635 590 545","126000_0":"1232 1158 1085 1011 938 864 791 717 644 570 496|937 883 829 774 720 666 611 557 502|761 718 675 632 589 546 504","126000_1":"1358 1279 1200 1120 1041 962 882 803 723 644 565|1033 975 916 857 799 740 682 623 564|839 792 746 700 654 607 561","189000_0":"1250 1176 1101 1027 953 878 804 729 655 581 506|951 896 841 786 731 676 621 566 511|772 729 685 642 599 555 512","189000_1":"1376 1296 1216 1136 1056 976 895 815 735 655 575|1047 988 929 869 810 751 692 632 573|850 803 756 710 663 616 570","269000_0":"1273 1198 1122 1047 972 896 821 745 670 594 519|969 913 857 802 746 690 634 578 523|786 742 698 654 610 566 522","269000_1":"1400 1318 1237 1156 1075 993 912 831 750 668 587|1065 1005 945 885 825 765 705 645 585|864 817 770 722 675 628 580"}},
-{m:"3",n:"Model 3 ロングレンジAWD",p:6219000,s:["766km","201km/h","4.4秒"],D:{"0_0":"1458 1374 1290 1206 1122 1038 954 871 787 703 619|1109 1047 985 923 861 799 737 675 613|900 851 802 753 705 656 607","0_1":"1584 1494 1405 1315 1225 1136 1046 956 867 777 687|1205 1139 1073 1006 940 874 808 741 675|978 926 874 821 769 717 665","126000_0":"1494 1409 1323 1238 1152 1066 981 895 810 724 639|1137 1074 1010 947 884 821 757 694 631|923 873 823 773 723 673 624","126000_1":"1621 1529 1438 1347 1255 1164 1072 981 890 798 707|1233 1166 1098 1030 963 895 828 760 693|1001 947 894 841 788 734 681","189000_0":"1513 1426 1340 1253 1167 1081 994 908 821 735 648|1151 1087 1023 959 895 832 768 704 640|934 884 833 783 733 682 632","189000_1":"1639 1547 1454 1362 1270 1178 1086 993 901 809 717|1247 1179 1111 1042 974 906 838 770 702|1012 958 904 851 797 743 690","269000_0":"1536 1448 1361 1273 1186 1098 1011 923 836 748 661|1168 1104 1039 975 910 845 781 716 651|948 897 846 795 744 693 642","269000_1":"1662 1569 1476 1382 1289 1196 1102 1009 916 823 729|1265 1196 1127 1058 989 920 851 782 713|1026 972 917 863 809 755 700"}},
-{m:"3",n:"Model 3 Performance",p:7259000,s:["647km","261km/h","3.1秒"],D:{"0_0":"1759 1661 1564 1466 1368 1271 1173 1075 977 880 782|1338 1266 1194 1122 1050 977 905 833 761|1086 1029 972 915 858 801 745","0_1":"1885 1782 1678 1575 1471 1368 1264 1161 1057 954 850|1434 1358 1281 1205 1128 1052 975 899 823|1164 1104 1043 983 923 863 802","126000_0":"1796 1696 1597 1497 1398 1299 1199 1100 1000 901 802|1366 1293 1219 1146 1072 999 925 852 779|1109 1051 993 935 877 819 761","126000_1":"1922 1817 1712 1606 1501 1396 1291 1186 1080 975 870|1462 1384 1307 1229 1151 1074 996 918 840|1187 1125 1064 1003 941 880 819","189000_0":"1814 1714 1613 1513 1413 1313 1213 1112 1012 912 812|1380 1306 1232 1158 1084 1010 936 862 787|1120 1061 1003 945 886 828 770","189000_1":"1940 1834 1728 1622 1516 1410 1304 1198 1092 986 880|1476 1398 1319 1241 1163 1084 1006 928 849|1198 1136 1074 1013 951 889 827","269000_0":"1837 1736 1634 1533 1432 1331 1229 1128 1027 925 824|1398 1323 1248 1173 1098 1023 949 874 799|1134 1075 1016 957 898 839 780","269000_1":"1963 1856 1749 1642 1535 1428 1321 1214 1107 1000 893|1494 1415 1335 1256 1177 1098 1019 940 861|1212 1150 1087 1025 963 900 838"}},
-{m:"Y",n:"Model Y RWD",p:5587000,s:["547km","201km/h","5.9秒"],D:{"0_0":"1275 1199 1124 1048 973 897 822 746 671 595 520|970 914 858 802 747 691 635 579 523|787 743 699 655 611 567 523","0_1":"1401 1320 1238 1157 1076 995 913 832 751 669 588|1066 1006 946 886 826 766 705 645 585|865 818 770 723 676 628 581","126000_0":"1311 1234 1157 1080 1003 925 848 771 694 617 539|998 941 884 827 769 712 655 598 541|810 765 720 675 630 585 540","126000_1":"1438 1355 1272 1189 1106 1023 940 857 774 691 608|1094 1032 971 910 848 787 726 664 603|888 839 791 743 694 646 598","189000_0":"1330 1251 1173 1095 1017 939 861 783 705 627 549|1012 954 896 839 781 723 666 608 550|821 775 730 685 639 594 548","189000_1":"1456 1372 1288 1204 1121 1037 953 869 785 702 618|1108 1046 984 922 860 798 736 674 612|899 850 801 752 704 655 606","269000_0":"1353 1274 1195 1115 1036 957 878 799 720 641 562|1029 971 912 854 795 737 679 620 562|835 789 743 697 651 605 559","269000_1":"1479 1394 1309 1224 1139 1055 970 885 800 715 630|1125 1063 1000 937 874 812 749 686 623|913 864 814 765 715 666 616"}},
-{m:"Y",n:"Model Y ロングレンジAWD",p:6476000,s:["682km","201km/h","4.3秒"],D:{"0_0":"1532 1445 1358 1270 1183 1096 1008 921 834 746 659|1166 1101 1037 972 908 843 779 714 650|946 895 844 793 743 692 641","0_1":"1659 1565 1472 1379 1286 1193 1100 1007 914 821 728|1262 1193 1124 1055 987 918 849 780 711|1024 970 916 861 807 753 699","126000_0":"1569 1480 1391 1302 1213 1124 1035 946 857 768 679|1194 1128 1062 996 931 865 799 733 667|969 917 865 813 761 709 658","126000_1":"1695 1600 1506 1411 1316 1221 1126 1032 937 842 747|1290 1220 1150 1080 1009 939 869 799 729|1047 991 936 881 826 770 715","189000_0":"1587 1497 1407 1318 1228 1138 1048 958 868 779 689|1207 1141 1075 1008 942 876 809 743 676|980 928 875 823 771 718 666","189000_1":"1713 1618 1522 1426 1331 1235 1140 1044 948 853 757|1304 1233 1162 1092 1021 950 880 809 738|1058 1002 946 891 835 779 724","269000_0":"1610 1519 1428 1338 1247 1156 1065 974 883 792 701|1225 1158 1091 1024 956 889 822 755 688|994 941 888 835 782 729 676","269000_1":"1737 1640 1543 1446 1350 1253 1156 1060 963 866 770|1321 1250 1178 1107 1035 964 892 821 750|1072 1016 959 903 847 791 734"}},
-{m:"Y",n:"Model Y L",p:7490000,s:["788km","201km/h","4.5秒"],D:{"0_0":"1826 1725 1624 1524 1423 1322 1221 1121 1020 919 818|1389 1315 1240 1166 1091 1017 942 868 793|1127 1069 1010 951 893 834 775","0_1":"1952 1846 1739 1633 1526 1419 1313 1206 1100 993 887|1485 1407 1328 1249 1170 1092 1013 934 855|1205 1143 1081 1019 957 895 833","126000_0":"1863 1760 1658 1555 1453 1350 1248 1145 1043 940 838|1417 1341 1266 1190 1114 1038 963 887 811|1150 1090 1031 971 911 851 792","126000_1":"1989 1881 1772 1664 1556 1448 1339 1231 1123 1015 906|1513 1433 1353 1273 1193 1113 1033 953 873|1228 1165 1102 1039 976 913 850","189000_0":"1881 1777 1674 1571 1468 1364 1261 1158 1054 951 848|1431 1355 1278 1202 1126 1049 973 897 820|1161 1101 1041 981 920 860 800","189000_1":"2007 1898 1789 1680 1571 1462 1353 1243 1134 1025 916|1527 1446 1366 1285 1205 1124 1043 963 882|1239 1176 1112 1048 985 921 858","269000_0":"1904 1800 1695 1591 1487 1382 1278 1173 1069 965 860|1449 1371 1294 1217 1140 1063 986 909 832|1175 1115 1054 993 932 872 811","269000_1":"2030 1920 1810 1700 1590 1480 1369 1259 1149 1039 929|1545 1463 1382 1300 1219 1138 1056 975 893|1253 1189 1125 1061 997 933 868"}}];
-const SL=[28967,22033,17883],$=i=>document.getElementById(i),y=n=>n.toLocaleString()+"円";let term=2,model="3";
-for(let v=0;v<=3500000;v+=100000){const o=document.createElement("option");o.value=v;o.textContent=(v/10000)+"万円";if(v==1500000)o.selected=true;$("down").appendChild(o)}
-function render(){const cv=$("color").value,only=cv[0]=="m"?"3":cv[0]=="y"?"Y":null,tier=cv.replace(/^[my]/,""),e=$("eap").checked,k=tier+"_"+(e?1:0),opt=+tier+(e?436000:0),d=+$("down").value;
-const G=T.filter(t=>model=="all"||t.m==model),ok=t=>!only||t.m==only;
+{m:"3",n:"Model 3 RWD",p:5313000,s:["594km","201km/h","6.1秒"],paint:P3,wheel:[["18インチ フォトンホイール",0],["19インチ ノバホイール",188000]],int:[["ブラック",0],["ブラック/ホワイト",126000]]},
+{m:"3",n:"Model 3 ロングレンジAWD",p:6219000,s:["766km","201km/h","4.4秒"],paint:P3,wheel:[["18インチ フォトンホイール",0],["19インチ ノバホイール",188000]],int:[["ブラック",0],["ブラック/ホワイト",126000]]},
+{m:"3",n:"Model 3 Performance",p:7259000,s:["647km","261km/h","3.1秒"],paint:P3,wheel:[["20インチ ワープホイール",0]],int:[["ブラック",0],["ブラック/ホワイト",126000]]},
+{m:"Y",n:"Model Y RWD",p:5587000,s:["547km","201km/h","5.9秒"],paint:PY,wheel:[["19インチ クロスフローホイール",0],["20インチ ヘリックス2.0ホイール",251000]],int:[["オールブラック",0],["ゼングレー",126000]]},
+{m:"Y",n:"Model Y ロングレンジAWD",p:6476000,s:["682km","201km/h","4.3秒"],paint:PY,wheel:[["19インチ クロスフローホイール",0],["20インチ ヘリックス2.0ホイール",251000]],int:[["オールブラック",0],["ゼングレー",126000]]},
+{m:"Y",n:"Model Y L",p:7490000,s:["788km","201km/h","4.5秒"],paint:PYLo,wheel:[["19インチ マキナ2.0ホイール",0]],int:[["オールブラック",0],["ゼングレー",126000]]}];
+T.forEach((t,i)=>{t.i=i;t.sel={paint:"PX02",wheel:0,int:0,eap:true}});
+const $=i=>document.getElementById(i),y=n=>Math.round(n).toLocaleString()+"円";let term=60,model="3";
+for(let v=0;v<=4500000;v+=100000){const o=document.createElement("option");o.value=v;o.textContent=(v/10000)+"万円";if(v==1500000)o.selected=true;$("down").appendChild(o)}
+const vp=t=>t.p+t.paint[t.sel.paint][1]+t.wheel[t.sel.wheel][1]+t.int[t.sel.int][1]+(t.sel.eap?436000:0);
+const RR={36:.5,48:.4,60:.3,120:0};
+function mon(v,n,d,r){const P=v+99999,taf=P-d+212000,b=Math.round(P*r),i=.029/12,q=Math.pow(1+i,-n);return Math.ceil(((taf-b*q)*i/(1-q))/(1+i)/100-1e-9)*100}
+function render(){const G=T.filter(t=>model=="all"||t.m==model),d=+$("down").value;
 const head="<tr><th></th>"+G.map(t=>`<th>${t.n}</th>`).join("")+"</tr>",row=(l,f)=>`<tr><td>${l}</td>${G.map(f).join("")}</tr>`;
-$("spec").innerHTML=head+row("車両本体",t=>`<td>${y(t.p)}</td>`)+row("色・オプション",t=>ok(t)?`<td>+${y(opt)}</td>`:'<td class="na">—</td>')+row("諸費用込み総額",t=>ok(t)?`<td><b class="m">${y(t.p+opt+327000)}</b></td>`:'<td class="na">—</td>')+row("航続距離",t=>`<td>${t.s[0]}</td>`)+row("最高速度",t=>`<td>${t.s[1]}</td>`)+row("0-100km/h",t=>`<td>${t.s[2]}</td>`);
-const adj=v=>Math.round((v*100-SL[term]*(d-1500000)/1000000)/100)*100;
-const L=G.map(t=>{const a=t.D[k].split("|")[term].split(" ");return(!ok(t)||d>(t.p+opt)*0.5)?a.map(()=>0):a.map(v=>adj(+v))});
+const sel=(t,k,opts)=>`<select data-i="${t.i}" data-k="${k}">${opts}</select>`;
+$("spec").innerHTML=head
++row("車両本体",t=>`<td>${y(t.p)}</td>`)
++row("外装色",t=>`<td>${sel(t,"paint",Object.entries(t.paint).map(([c,[n,p]])=>`<option value="${c}"${c==t.sel.paint?" selected":""}>${n} ${p?"+"+y(p):"(標準)"}</option>`).join(""))}</td>`)
++row("ホイール",t=>`<td>${sel(t,"wheel",t.wheel.map(([n,p],j)=>`<option value="${j}"${j==t.sel.wheel?" selected":""}>${n} ${p?"+"+y(p):"(標準)"}</option>`).join(""))}</td>`)
++row("インテリア",t=>`<td>${sel(t,"int",t.int.map(([n,p],j)=>`<option value="${j}"${j==t.sel.int?" selected":""}>${n} ${p?"+"+y(p):"(標準)"}</option>`).join(""))}</td>`)
++row("オートパイロット",t=>`<td><label><input type="checkbox" data-i="${t.i}" data-k="eap"${t.sel.eap?" checked":""}> +436,000円</label></td>`)
++row("車両価格(選択後)",t=>`<td><b class="m">${y(vp(t))}</b></td>`)
++row("一括(現金)総額",t=>`<td><b class="m">${y(vp(t)+100000)}</b></td>`)
++row("航続距離",t=>`<td>${t.s[0]}</td>`)+row("最高速度",t=>`<td>${t.s[1]}</td>`)+row("0-100km/h",t=>`<td>${t.s[2]}</td>`);
+$("spec").querySelectorAll("select,input").forEach(e=>e.onchange=()=>{const t=T[e.dataset.i],k=e.dataset.k;t.sel[k]=k=="eap"?e.checked:k=="paint"?e.value:+e.value;render()});
+if(term==0){$("payTitle").textContent="一括(現金)で払う場合";
+$("pay").innerHTML=head+row("車両価格",t=>`<td>${y(vp(t))}</td>`)+row("登録・書類費用",()=>`<td>${y(100000)}</td>`)+row("お支払い総額",t=>`<td><b class="m">${y(vp(t)+100000)}</b></td>`)+row("補助金127万円差引後の実質",t=>`<td>${y(vp(t)+100000-1270000)}</td>`);
+$("pnote").textContent="一括の総額は公式の現金価格(車両価格+100,000円)。注文手数料15,000円は別。補助金は登録後に交付。";return}
+$("payTitle").textContent=`月々の支払い(${term}回・頭金${d/10000}万円)`;
 let h="<tr><th>据置率</th>"+G.map(t=>`<th>${t.n}</th>`).join("")+"</tr>";
-for(let j=0;j<L[0].length;j++)h+=`<tr${j*5==[50,40,30][term]?' class="sel"':''}><td>${j*5}%</td>${L.map(a=>a[j]?`<td><b class="m">${y(a[j])}</b></td>`:'<td class="na">—</td>').join("")}</tr>`;
-$("pay").innerHTML=h;$("dnote").textContent=d==1500000?"頭金150万円:公式の表示値そのままです。":"頭金"+(d/10000)+"万円:公式の150万円時の値を、公式画面で測った頭金1万円あたりの差("+[36,48,60][term]+"回は月"+(SL[term]/100).toFixed(2)+"円)でずらした値です。頭金0円・50万円・300万円の公式値と100円単位で一致を確認済み(±100円程度の差は出ることがあります)。"}
-["color","eap","down"].forEach(i=>$(i).onchange=render);
+for(let j=0;j*5<=RR[term]*100+1e-9;j++){const r=j*5/100;h+=`<tr${r==RR[term]&&r>0?' class="sel"':''}><td>${j*5}%</td>${G.map(t=>{const v=vp(t);return d>(v+99999)*.5?'<td class="na">頭金上限超え</td>':`<td><b class="m">${y(mon(v,term,d,r))}</b></td>`}).join("")}</tr>`}
+$("pay").innerHTML=h;$("pnote").textContent=term==120?"120回は公式で据置率0%(通常ローン)のみ選べます。":"据置率=最終回に残す割合(払う/返却/乗り換え)。色付きの行は公式で選べる上限。";}
+$("down").onchange=render;$("eapAll").onchange=()=>{T.forEach(t=>t.sel.eap=$("eapAll").checked);render()};
 const seg=(id,f)=>document.querySelectorAll("#"+id+" button").forEach(b=>b.onclick=()=>{f(b);document.querySelectorAll("#"+id+" button").forEach(x=>x.classList.toggle("on",x===b));render()});
 seg("term",b=>term=+b.dataset.t);seg("model",b=>model=b.dataset.m);render();
 </script></main></body></html>
