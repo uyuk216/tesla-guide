@@ -122,7 +122,7 @@ let mv=0;if(m&&m[4]&&!/終了/.test(m[6])&&(m[2]=="o"||(m[2]=="c"&&area.mo)))mv=
 function areaInfo(){const s=subs();let t=`<b>補助金の合計(1台あたり): ${y(s.tot)}</b><br>国(CEV) 1,270,000円 ＋ ${area.pref} ${y(s.pv)} ＋ ${area.muni||"市区町村"} ${y(s.mv)}`;
 if(s.ps)t+=`<br>${area.pref}: ${s.ps.note} <a href="${s.ps.url}" target="_blank" rel="noopener">公式</a>`;else t+=`<br>${area.pref}は個人向けの県独自のEV購入補助なし(2026年度・確認範囲)`;
 if(s.m)t+=`<br>${s.m[1]}: <b>${ST[s.m[2]]}</b> / ${s.m[3]} / ${s.m[5]} / ${s.m[6]} <a href="${s.m[7]}" target="_blank" rel="noopener">公式</a>`+(s.m[2]!="o"&&s.m[2]!="c"?" ※合計に含めていません":"")+(/終了/.test(s.m[6])?" ※受付終了のため合計に含めていません":"")+(s.m[2]=="c"&&!area.mo?" ※条件を満たす場合はチェックで合計に含めます":"");
-if(area.pref=="東京都"&&!area.muni)t+=`<br>東京都の区市町村: 23区と26市を確認。テスラで使える区市独自の補助は江東区・墨田区(各10万円)、足立区・江戸川区(受付終了)のみ。市部は小金井市(前年度10万円・2026年度は未確認)以外に見つかりませんでした。`;
+if(area.pref=="東京都"&&!area.muni)t+=`<br>東京都の区市町村: 23区と26市を確認。テスラで使える区市独自の補助は江東区・墨田区(各10万円)、足立区・江戸川区(受付終了)のみ。市部(26市)は小金井市(前年度10万円・2026年度は未確認)以外に見つかりませんでした(調布市・西東京市・青梅市も公式サイトで確認、EV購入補助なし)。`;
 t+=`<br><span class="note">補助金は登録後に交付(月額には反映されません)。市区町村は次世代自動車振興センター掲載の制度と東京都の全市区を各公式ページで確認(2026年10月時点・約290件)。金額は上限・定額の目安。予算到達で終了することがあります。</span>`;$("subInfo").innerHTML=t}
 const elec=t=>Math.round(area.km*EFF[t.i]/1000*area.kwh/10)*10,run=t=>elec(t)+ +area.ins;
 ["pref","muni","km","kwh","ins"].forEach(k=>$(k).onchange=()=>{area[k]=$(k).value;if(k=="pref"){area.muni="";area.po=0}render()});$("muniOpt").onchange=()=>{area.mo=$("muniOpt").checked;render()};
