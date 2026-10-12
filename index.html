@@ -12,7 +12,7 @@ th,td{padding:8px;border-bottom:1px solid var(--bd);text-align:right;white-space
 select{padding:7px;font-size:14px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);max-width:100%}input[type=checkbox]{width:20px;height:20px;vertical-align:middle}
 .seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--bd);border-radius:8px;overflow:hidden}.seg button{border:0;background:var(--bg);color:var(--tx);padding:8px 13px;font-size:15px;cursor:pointer}.seg button.on{background:var(--ac);color:#fff}
 td.na{color:var(--sub)}tr.sel td{background:var(--hl)}b.m{font-size:16px}td select{width:100%;min-width:150px}
-@media(max-width:700px){main{padding:16px 12px 40px}h1{font-size:20px}.ctl{gap:10px}.seg button{padding:8px 10px;font-size:14px}.ctl label{width:100%}
+@media(max-width:700px){#pickBox label{display:inline-block;margin:4px 10px 4px 0}main{padding:16px 12px 40px}h1{font-size:20px}.ctl{gap:10px}.seg button{padding:8px 10px;font-size:14px}.ctl label{width:100%}
 #pc{display:none}#sp{display:block}}
 @media(min-width:701px){#sp{display:none}}
 .mc{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin:12px 0}
@@ -26,7 +26,9 @@ td.na{color:var(--sub)}tr.sel td{background:var(--hl)}b.m{font-size:16px}td sele
 
 <h2>条件</h2>
 <div class="card ctl">
-<span class="seg" id="model"><button data-m="3" class="on">Model 3</button><button data-m="Y">Model Y</button><button data-m="all">両方</button></span>
+<span class="seg" id="model"><button data-m="all">全部</button><button data-m="3">Model 3のみ</button><button data-m="Y">Model Yのみ</button><button data-m="one">1グレード</button><button data-m="pick">選んで比較</button></span>
+<span id="oneBox" hidden><select id="one"></select></span>
+<span id="pickBox" hidden></span>
 <label>頭金 <select id="down"></select></label>
 <span class="seg" id="term"><button data-t="0">一括</button><button data-t="36">36回</button><button data-t="48">48回</button><button data-t="60" class="on">60回</button><button data-t="120">120回</button></span>
 <label><input type="checkbox" id="eapAll" checked> エンハンスト オートパイロット(+436,000円)を全グレードに</label>
@@ -55,12 +57,14 @@ const T=[
 {m:"Y",n:"Model Y ロングレンジAWD",p:6476000,s:["682km","201km/h","4.3秒"],paint:PY,wheel:[["19インチ クロスフローホイール",0],["20インチ ヘリックス2.0ホイール",251000]],int:[["オールブラック",0],["ゼングレー",126000]]},
 {m:"Y",n:"Model Y L",p:7490000,s:["788km","201km/h","4.5秒"],paint:PYLo,wheel:[["19インチ マキナ2.0ホイール",0]],int:[["オールブラック",0],["ゼングレー",126000]]}];
 T.forEach((t,i)=>{t.i=i;t.sel={paint:"PX02",wheel:0,int:0,eap:true}});
-const $=i=>document.getElementById(i),y=n=>Math.round(n).toLocaleString()+"円";let term=60,model="3";
+const $=i=>document.getElementById(i),y=n=>Math.round(n).toLocaleString()+"円";let term=60,model="3",one=2,pick=[2,5];try{const st=JSON.parse(localStorage.getItem("tg_view")||"{}");if(st.model)model=st.model;if(st.one!=null)one=st.one;if(Array.isArray(st.pick))pick=st.pick}catch(e){}
+const save=()=>{try{localStorage.setItem("tg_view",JSON.stringify({model,one,pick}))}catch(e){}};
 for(let v=0;v<=4500000;v+=100000){const o=document.createElement("option");o.value=v;o.textContent=(v/10000)+"万円";if(v==1500000)o.selected=true;$("down").appendChild(o)}
 const vp=t=>t.p+t.paint[t.sel.paint][1]+t.wheel[t.sel.wheel][1]+t.int[t.sel.int][1]+(t.sel.eap?436000:0);
 const RR={36:.5,48:.4,60:.3,120:0};
 function mon(v,n,d,r){const P=v+99999,taf=P-d+212000,b=Math.round(P*r),i=.029/12,q=Math.pow(1+i,-n);return Math.ceil(((taf-b*q)*i/(1-q))/(1+i)/100-1e-9)*100}
-function renderSP(){const G=T.filter(t=>model=="all"||t.m==model),d=+$("down").value;
+function gsel(){if(model=="all")return T;if(model=="one")return [T[one]];if(model=="pick"){const g=T.filter(t=>pick.includes(t.i));return g.length?g:[T[2]]}return T.filter(t=>t.m==model)}
+function renderSP(){const G=gsel(),d=+$("down").value;
 const opt=(t,k,list,cur)=>`<select data-i="${t.i}" data-k="${k}">${list.map(([v,n,p])=>`<option value="${v}"${v==cur?" selected":""}>${n} ${p?"+"+y(p):"(標準)"}</option>`).join("")}</select>`;
 $("sp").innerHTML=G.map(t=>{const v=vp(t);let pay;
 if(term==0)pay=`<div class="row"><span>一括(現金)総額</span><span class="big">${y(v+100000)}</span></div><div class="row"><span>補助金127万円差引後</span><span>${y(v+100000-1270000)}</span></div>`;
@@ -74,7 +78,8 @@ return `<div class="mc"><h3>${t.n}</h3><div class="row"><span>航続 ${t.s[0]} /
 <label><input type="checkbox" data-i="${t.i}" data-k="eap"${t.sel.eap?" checked":""}> オートパイロット +436,000円</label>
 <div class="row"><span>車両価格(選択後)</span><span><b>${y(v)}</b></span></div>${pay}</div>`}).join("")+`<p class="note">${term==120?"120回は据置率0%のみ(公式)。":term?"据置率=最終回に残す割合。赤枠は公式で選べる上限。":"注文手数料15,000円は別。"}</p>`;
 $("sp").querySelectorAll("select,input").forEach(e=>e.onchange=()=>{const t=T[e.dataset.i],k=e.dataset.k;t.sel[k]=k=="eap"?e.checked:k=="paint"?e.value:+e.value;render()})}
-function render(){renderSP();const G=T.filter(t=>model=="all"||t.m==model),d=+$("down").value;
+function ui(){document.querySelectorAll("#model button").forEach(x=>x.classList.toggle("on",x.dataset.m==model));$("oneBox").hidden=model!="one";$("pickBox").hidden=model!="pick";$("one").value=one;$("pickBox").querySelectorAll("input").forEach(c=>c.checked=pick.includes(+c.value))}
+function render(){ui();save();renderSP();const G=gsel(),d=+$("down").value;
 const head="<tr><th></th>"+G.map(t=>`<th>${t.n}</th>`).join("")+"</tr>",row=(l,f)=>`<tr><td>${l}</td>${G.map(f).join("")}</tr>`;
 const sel=(t,k,opts)=>`<select data-i="${t.i}" data-k="${k}">${opts}</select>`;
 $("spec").innerHTML=head
@@ -96,5 +101,8 @@ for(let j=0;j*5<=RR[term]*100+1e-9;j++){const r=j*5/100;h+=`<tr${r==RR[term]&&r>
 $("pay").innerHTML=h;$("pnote").textContent=term==120?"120回は公式で据置率0%(通常ローン)のみ選べます。":"据置率=最終回に残す割合(払う/返却/乗り換え)。色付きの行は公式で選べる上限。";}
 $("down").onchange=render;$("eapAll").onchange=()=>{T.forEach(t=>t.sel.eap=$("eapAll").checked);render()};
 const seg=(id,f)=>document.querySelectorAll("#"+id+" button").forEach(b=>b.onclick=()=>{f(b);document.querySelectorAll("#"+id+" button").forEach(x=>x.classList.toggle("on",x===b));render()});
+$("one").innerHTML=T.map(t=>`<option value="${t.i}">${t.n}</option>`).join("");$("one").onchange=()=>{one=+$("one").value;render()};
+$("pickBox").innerHTML=T.map(t=>`<label style="margin-right:10px;white-space:nowrap"><input type="checkbox" value="${t.i}"> ${t.n}</label>`).join("");
+$("pickBox").querySelectorAll("input").forEach(c=>c.onchange=()=>{pick=[...$("pickBox").querySelectorAll("input:checked")].map(x=>+x.value);render()});
 seg("term",b=>term=+b.dataset.t);seg("model",b=>model=b.dataset.m);render();
 </script></main></body></html>
