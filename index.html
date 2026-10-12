@@ -60,7 +60,7 @@ const T=[
 {m:"Y",n:"Model Y RWD",p:5587000,s:["547km","201km/h","5.9秒"],paint:PY,wheel:[["19インチ クロスフローホイール",0],["20インチ ヘリックス2.0ホイール",251000]],int:[["オールブラック",0],["ゼングレー",126000]]},
 {m:"Y",n:"Model Y ロングレンジAWD",p:6476000,s:["682km","201km/h","4.3秒"],paint:PY,wheel:[["19インチ クロスフローホイール",0],["20インチ ヘリックス2.0ホイール",251000]],int:[["オールブラック",0],["ゼングレー",126000]]},
 {m:"Y",n:"Model Y L",p:7490000,s:["788km","201km/h","4.5秒"],paint:PYLo,wheel:[["19インチ マキナ2.0ホイール",0]],int:[["オールブラック",0],["ゼングレー",126000]]}];
-T.forEach((t,i)=>{t.i=i;t.sel={paint:"PX02",wheel:0,int:0,eap:true}});
+T.forEach((t,i)=>{t.i=i;t.sel={paint:"PN01",wheel:0,int:0,eap:true}});
 const $=i=>document.getElementById(i),y=n=>Math.round(n).toLocaleString()+"円";let term=60,model="3",one=2,pick=[2,5];try{const st=JSON.parse(localStorage.getItem("tg_view")||"{}");if(st.model)model=st.model;if(st.one!=null)one=st.one;if(Array.isArray(st.pick))pick=st.pick}catch(e){}
 const save=()=>{try{localStorage.setItem("tg_view",JSON.stringify({model,one,pick}))}catch(e){}};
 for(let v=0;v<=4500000;v+=100000){const o=document.createElement("option");o.value=v;o.textContent=(v/10000)+"万円";if(v==1500000)o.selected=true;$("down").appendChild(o)}
