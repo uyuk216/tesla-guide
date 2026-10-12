@@ -68,7 +68,7 @@ td.na{color:var(--sub)}tr.sel td{background:var(--hl)}b.m{font-size:15.5px;font-
 <div class="card"><table id="pay"></table>
 <p class="note" id="pnote"></p></div>
 </div>
-<p class="note">電気代=月の走行距離×電費(WLTC)×電気単価の概算(実走行では1〜3割増えることがあります。スーパーチャージャーは別料金)。電費出典:東京電力EV DAYS(Model 3 RWD/ロングレンジ、Model Y RWD/ロングレンジ)、EV Note(Model Y L)。Model 3 Performanceは最新値が見つからず旧資料の147Wh/km。保険料は条件で大きく変わるため選択式(目安:年6〜12万円程度、車両保険付きで高くなる)。</p>
+<p class="note">電気代=月の走行距離×電費(WLTC)×電気単価の概算(実走行では1〜3割増えることがあります。スーパーチャージャーは別料金)。電費出典:東京電力EV DAYS(Model 3 RWD/ロングレンジ、Model Y RWD/ロングレンジ)、EV Note(Model Y L)。Model 3 Performanceは最新値が見つからず旧資料の147Wh/km。保険料は条件で大きく変わるため選択式(目安:35歳以上・20等級で年6〜12万円程度。20代・6等級・車両保険ありは26〜29歳で月1.7〜2.9万円、21〜25歳で月3〜5万円程度の推計)。</p>
 <p class="note">月額の出し方: 公式見積もりページ内の計算処理に、全グレード・全色・全ホイール・全内装・オートパイロット有無の全240構成 × 頭金0〜450万円(10万円刻み) × 36/48/60/120回 × 全据置率 の計約21万通りを入力し、このページの計算(月初払い・月利2.9%/12・100円単位切り上げ、借入額=車両価格+99,999円−頭金+212,000円、据置額=(車両価格+99,999円)×据置率)と1円の違いもないことを全件確認済みです。頭金の上限は(車両価格+99,999円)の50%(公式の上限)。120回は据置率0%のみ(公式)。※据置価格での買取は保証されません。実際の金利・条件はローン審査で決まります。</p>
 
 <script>
@@ -110,7 +110,7 @@ const fill=(id,arr,cur)=>{$(id).innerHTML=arr.map(([v,l])=>`<option value="${v}"
 fill("pref",PREFS.map(p=>[p,p]),area.pref);
 fill("km",[300,500,800,1000,1500,2000,3000].map(v=>[v,v.toLocaleString()+"km"]),area.km);
 fill("kwh",[20,25,28,31,35,40].map(v=>[v,v+"円/kWh"]),area.kwh);
-fill("ins",[4000,6000,8000,10000,12000,15000,20000].map(v=>[v,v.toLocaleString()+"円"]),area.ins);
+fill("ins",[4000,6000,8000,10000,12000,15000,20000,25000,30000,40000,50000].map(v=>[v,v.toLocaleString()+"円"]),area.ins);
 const ST={o:"対象",c:"条件付き",q:"要確認",x:"テスラは対象外"};
 function areaUI(){const ms=SUB.filter(s=>s[0]==area.pref);if(!ms.some(s=>s[1]==area.muni))area.muni="";
 fill("muni",[["","市区町村の補助なし・未掲載"]].concat(ms.map(s=>[s[1],s[1]+"("+ST[s[2]]+")"])),area.muni);
