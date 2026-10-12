@@ -104,7 +104,7 @@ const pz=p=>p?"+"+y(p):"標準";const RR={36:.5,48:.4,60:.3,120:0};
 function mon(v,n,d,r){const P=v+99999,taf=P-d+212000,b=Math.round(P*r),i=.029/12,q=Math.pow(1+i,-n);return Math.ceil(((taf-b*q)*i/(1-q))/(1+i)/100-1e-9)*100}
 
 const LS=k=>{try{return JSON.parse(localStorage.getItem("tg_area")||"{}")[k]}catch(e){}};
-const area={pref:LS("pref")||"東京都",muni:LS("muni")||"",po:LS("po")||0,mo:!!LS("mo"),km:LS("km")||1000,kwh:LS("kwh")||31,ins:LS("ins")||8000};
+const area={pref:LS("pref")||"東京都",muni:LS("muni")||"",po:LS("po")||0,mo:!!LS("mo"),km:LS("km")||1000,kwh:LS("kwh")||31,ins:LS("ins")||25000};
 const saveA=()=>{try{localStorage.setItem("tg_area",JSON.stringify(area))}catch(e){}};
 const fill=(id,arr,cur)=>{$(id).innerHTML=arr.map(([v,l])=>`<option value="${v}"${String(v)==String(cur)?" selected":""}>${l}</option>`).join("")};
 fill("pref",PREFS.map(p=>[p,p]),area.pref);
