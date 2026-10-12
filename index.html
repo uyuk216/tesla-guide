@@ -1,32 +1,39 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>テスラ ローン比較</title>
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--tx:#1c1f24;--sub:#6a717c;--ac:#d9262c;--bd:#e3e6ea;--hl:rgba(217,38,44,.08)}
-@media(prefers-color-scheme:dark){:root{--bg:#111316;--card:#1b1e23;--tx:#eceef1;--sub:#9aa2ad;--bd:#2b3038;--hl:rgba(255,90,95,.12)}}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.7 -apple-system,"Hiragino Sans",sans-serif}
-main{max-width:1440px;margin:auto;padding:24px 16px 60px}h1{font-size:25px;margin:0}
-h2{font-size:18px;margin:28px 0 8px;border-left:4px solid var(--ac);padding-left:10px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:10px 0;overflow-x:auto}
-.sub,.note{color:var(--sub);font-size:13px}table{width:100%;border-collapse:collapse;font-size:15px}
-th,td{padding:8px;border-bottom:1px solid var(--bd);text-align:right;white-space:nowrap;vertical-align:top}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--card);z-index:1}th{color:var(--sub);font-size:13px;font-weight:600}
-.ctl{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center}
-select{padding:7px;font-size:14px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);max-width:100%}input[type=checkbox]{width:20px;height:20px;vertical-align:middle}
-.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--bd);border-radius:8px;overflow:hidden}.seg button{border:0;background:var(--bg);color:var(--tx);padding:8px 13px;font-size:15px;cursor:pointer}.seg button.on{background:var(--ac);color:#fff}
-td.na{color:var(--sub)}tr.sel td{background:var(--hl)}b.m{font-size:16px}td select{width:100%;min-width:0;font-size:13px}
+:root{--bg:#fff;--card:#f4f4f4;--tx:#171a20;--sub:#5c5e62;--ac:#3e6ae1;--bd:#e2e3e3;--hl:rgba(62,106,225,.08);--on:#171a20;--ontx:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#000;--card:#171a20;--tx:#eeeeee;--sub:#a2a3a5;--ac:#3e6ae1;--bd:#2a2d33;--hl:rgba(62,106,225,.18);--on:#eeeeee;--ontx:#171a20}}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.65 -apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Sans",sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:.01em}
+main{max-width:1440px;margin:auto;padding:40px 24px 64px}
+h1{font-size:30px;font-weight:500;margin:0;letter-spacing:.02em;text-align:center}
+.sub{text-align:center}
+h2{font-size:17px;font-weight:500;margin:36px 0 10px;letter-spacing:.04em}
+.card{background:var(--card);border:0;border-radius:6px;padding:16px 18px;margin:10px 0;overflow-x:auto}
+.sub,.note{color:var(--sub);font-size:12.5px}table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{padding:10px 8px;border-bottom:1px solid var(--bd);text-align:right;white-space:nowrap;vertical-align:top}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--card);z-index:1;color:var(--sub);font-weight:500}th{color:var(--sub);font-size:12.5px;font-weight:500}
+tr:last-child td{border-bottom:0}
+.ctl{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+select{padding:7px 10px;font-size:14px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--tx);max-width:100%}
+input[type=checkbox]{width:18px;height:18px;vertical-align:middle;accent-color:var(--ac)}
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--bg);border-radius:6px;padding:4px}
+.seg button{border:0;background:transparent;color:var(--tx);padding:7px 14px;font-size:14px;font-weight:500;border-radius:4px;cursor:pointer;transition:background .2s}
+.seg button:hover{background:var(--card)}.seg button.on{background:var(--on);color:var(--ontx)}
+td.na{color:var(--sub)}tr.sel td{background:var(--hl)}b.m{font-size:15.5px;font-weight:600}td select{width:100%;min-width:0;font-size:13px}
 #pc table{table-layout:fixed}#pc th{white-space:normal;line-height:1.35}#pc th:first-child,#pc td:first-child{width:118px}
-#pc td{white-space:normal;word-break:keep-all;overflow-wrap:anywhere}.pk{position:relative;display:block;border:1px solid var(--bd);border-radius:8px;background:var(--bg);padding:5px 22px 5px 8px;font-size:13px;line-height:1.35;text-align:left;white-space:normal}
-.pk::after{content:"▾";position:absolute;right:7px;top:50%;transform:translateY(-50%);color:var(--sub)}.pk select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+#pc td{white-space:normal;word-break:keep-all;overflow-wrap:anywhere}
+.pk{position:relative;display:block;border:1px solid var(--bd);border-radius:4px;background:var(--bg);padding:6px 24px 6px 9px;font-size:13px;line-height:1.35;text-align:left;white-space:normal}
+.pk::after{content:"";position:absolute;right:9px;top:50%;width:6px;height:6px;border-right:1.5px solid var(--sub);border-bottom:1.5px solid var(--sub);transform:translateY(-70%) rotate(45deg)}.pk select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
 .op{display:block;font-size:12px;color:var(--sub);text-align:right}
 @media(max-width:700px){#pickBox label{display:inline-block;margin:4px 10px 4px 0}main{padding:16px 12px 40px}h1{font-size:20px}.ctl{gap:10px}.seg button{padding:8px 10px;font-size:14px}.ctl label{width:100%}
 #pc{display:none}#sp{display:block}}
 @media(min-width:701px){#sp{display:none}}
-.mc{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin:12px 0}
+.mc{background:var(--card);border:0;border-radius:6px;padding:12px;margin:12px 0}
 .mc h3{margin:0 0 6px;font-size:17px}.mc .row{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid var(--bd);font-size:14px}
 .mc .row span:last-child{text-align:right}.mc select{width:100%;margin:3px 0 6px;font-size:15px}
-.mc .big{font-size:22px;font-weight:700;color:var(--ac)}.mc .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
-.mc .cell{background:var(--bg);border-radius:8px;padding:6px;text-align:center;font-size:12px;color:var(--sub)}.mc .cell b{display:block;color:var(--tx);font-size:15px}.mc .cell.sel{outline:2px solid var(--ac)}
+.mc .big{font-size:22px;font-weight:600}.mc .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
+.mc .cell{background:var(--bg);border-radius:8px;padding:6px;text-align:center;font-size:12px;color:var(--sub)}.mc .cell b{display:block;color:var(--tx);font-size:15px}.mc .cell.sel{outline:2px solid var(--ac)}.mc h3{font-weight:500}
 </style></head><body><main>
-<h1>テスラ ローン比較(Model 3 / Model Y・新車)</h1>
-<div class="sub">テスラ公式サイト(2026年10月12日)の見積もりデータに基づく。金利2.9%(提携SMBC)</div>
+<h1>Model 3 / Model Y ローン比較</h1>
+<div class="sub">新車 ・ テスラ公式サイト(2026年10月12日)の見積もりデータに基づく。金利2.9%(提携SMBC)</div>
 
 <h2>条件</h2>
 <div class="card ctl">
@@ -35,7 +42,7 @@ td.na{color:var(--sub)}tr.sel td{background:var(--hl)}b.m{font-size:16px}td sele
 <span id="pickBox" hidden></span>
 <label>頭金 <select id="down"></select></label>
 <span class="seg" id="term"><button data-t="0">一括</button><button data-t="36">36回</button><button data-t="48">48回</button><button data-t="60" class="on">60回</button><button data-t="120">120回</button></span>
-<label><input type="checkbox" id="eapAll" checked> エンハンスト オートパイロット(+436,000円)を全グレードに</label>
+<label><input type="checkbox" id="eapAll"> エンハンスト オートパイロット(+436,000円)を全グレードに</label>
 </div>
 
 <div id="sp"></div>
@@ -60,7 +67,7 @@ const T=[
 {m:"Y",n:"Model Y RWD",p:5587000,s:["547km","201km/h","5.9秒"],paint:PY,wheel:[["19インチ クロスフローホイール",0],["20インチ ヘリックス2.0ホイール",251000]],int:[["オールブラック",0],["ゼングレー",126000]]},
 {m:"Y",n:"Model Y ロングレンジAWD",p:6476000,s:["682km","201km/h","4.3秒"],paint:PY,wheel:[["19インチ クロスフローホイール",0],["20インチ ヘリックス2.0ホイール",251000]],int:[["オールブラック",0],["ゼングレー",126000]]},
 {m:"Y",n:"Model Y L",p:7490000,s:["788km","201km/h","4.5秒"],paint:PYLo,wheel:[["19インチ マキナ2.0ホイール",0]],int:[["オールブラック",0],["ゼングレー",126000]]}];
-T.forEach((t,i)=>{t.i=i;t.sel={paint:"PN01",wheel:0,int:0,eap:true}});
+T.forEach((t,i)=>{t.i=i;t.sel={paint:"PN01",wheel:0,int:0,eap:false}});
 const $=i=>document.getElementById(i),y=n=>Math.round(n).toLocaleString()+"円";let term=60,model="3",one=2,pick=[2,5];try{const st=JSON.parse(localStorage.getItem("tg_view")||"{}");if(st.model)model=st.model;if(st.one!=null)one=st.one;if(Array.isArray(st.pick))pick=st.pick}catch(e){}
 const save=()=>{try{localStorage.setItem("tg_view",JSON.stringify({model,one,pick}))}catch(e){}};
 for(let v=0;v<=4500000;v+=100000){const o=document.createElement("option");o.value=v;o.textContent=(v/10000)+"万円";if(v==1500000)o.selected=true;$("down").appendChild(o)}
