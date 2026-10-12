@@ -12,6 +12,14 @@ th,td{padding:8px;border-bottom:1px solid var(--bd);text-align:right;white-space
 select{padding:7px;font-size:14px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);max-width:100%}input[type=checkbox]{width:20px;height:20px;vertical-align:middle}
 .seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--bd);border-radius:8px;overflow:hidden}.seg button{border:0;background:var(--bg);color:var(--tx);padding:8px 13px;font-size:15px;cursor:pointer}.seg button.on{background:var(--ac);color:#fff}
 td.na{color:var(--sub)}tr.sel td{background:var(--hl)}b.m{font-size:16px}td select{width:100%;min-width:150px}
+@media(max-width:700px){main{padding:16px 12px 40px}h1{font-size:20px}.ctl{gap:10px}.seg button{padding:8px 10px;font-size:14px}.ctl label{width:100%}
+#pc{display:none}#sp{display:block}}
+@media(min-width:701px){#sp{display:none}}
+.mc{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin:12px 0}
+.mc h3{margin:0 0 6px;font-size:17px}.mc .row{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid var(--bd);font-size:14px}
+.mc .row span:last-child{text-align:right}.mc select{width:100%;margin:3px 0 6px;font-size:15px}
+.mc .big{font-size:22px;font-weight:700;color:var(--ac)}.mc .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
+.mc .cell{background:var(--bg);border-radius:8px;padding:6px;text-align:center;font-size:12px;color:var(--sub)}.mc .cell b{display:block;color:var(--tx);font-size:15px}.mc .cell.sel{outline:2px solid var(--ac)}
 </style></head><body><main>
 <h1>テスラ ローン比較(Model 3 / Model Y・新車)</h1>
 <div class="sub">テスラ公式サイト(2026年10月12日)の見積もりデータに基づく。金利2.9%(提携SMBC)</div>
@@ -24,6 +32,8 @@ td.na{color:var(--sub)}tr.sel td{background:var(--hl)}b.m{font-size:16px}td sele
 <label><input type="checkbox" id="eapAll" checked> エンハンスト オートパイロット(+436,000円)を全グレードに</label>
 </div>
 
+<div id="sp"></div>
+<div id="pc">
 <h2>グレードと構成(グレードごとに色・ホイール・内装を選べます)</h2>
 <div class="card"><table id="spec"></table>
 <p class="note">諸費用: ジャックス手数料212,000円(ローン時・借入に含む)、登録・書類費用100,000円、注文手数料15,000円(公式データ)。国の補助金127万円は登録後に交付され、表の金額には反映されていません。</p></div>
@@ -31,6 +41,7 @@ td.na{color:var(--sub)}tr.sel td{background:var(--hl)}b.m{font-size:16px}td sele
 <h2 id="payTitle">月々の支払い</h2>
 <div class="card"><table id="pay"></table>
 <p class="note" id="pnote"></p></div>
+</div>
 <p class="note">月額の出し方: 公式見積もりページ内の計算処理に、全グレード・全色・全ホイール・全内装・オートパイロット有無の全240構成 × 頭金0〜450万円(10万円刻み) × 36/48/60/120回 × 全据置率 の計約21万通りを入力し、このページの計算(月初払い・月利2.9%/12・100円単位切り上げ、借入額=車両価格+99,999円−頭金+212,000円、据置額=(車両価格+99,999円)×据置率)と1円の違いもないことを全件確認済みです。頭金の上限は(車両価格+99,999円)の50%(公式の上限)。120回は据置率0%のみ(公式)。※据置価格での買取は保証されません。実際の金利・条件はローン審査で決まります。</p>
 <script>
 const P3={PN01:["ステルスグレー",0],PB02:["マリンブルー",126000],PX02:["ダイヤモンドブラック",126000],PPSW:["パールホワイト マルチコート",189000],PN00:["クイックシルバー",269000],PR01:["ウルトラレッド",269000]};
@@ -49,7 +60,21 @@ for(let v=0;v<=4500000;v+=100000){const o=document.createElement("option");o.val
 const vp=t=>t.p+t.paint[t.sel.paint][1]+t.wheel[t.sel.wheel][1]+t.int[t.sel.int][1]+(t.sel.eap?436000:0);
 const RR={36:.5,48:.4,60:.3,120:0};
 function mon(v,n,d,r){const P=v+99999,taf=P-d+212000,b=Math.round(P*r),i=.029/12,q=Math.pow(1+i,-n);return Math.ceil(((taf-b*q)*i/(1-q))/(1+i)/100-1e-9)*100}
-function render(){const G=T.filter(t=>model=="all"||t.m==model),d=+$("down").value;
+function renderSP(){const G=T.filter(t=>model=="all"||t.m==model),d=+$("down").value;
+const opt=(t,k,list,cur)=>`<select data-i="${t.i}" data-k="${k}">${list.map(([v,n,p])=>`<option value="${v}"${v==cur?" selected":""}>${n} ${p?"+"+y(p):"(標準)"}</option>`).join("")}</select>`;
+$("sp").innerHTML=G.map(t=>{const v=vp(t);let pay;
+if(term==0)pay=`<div class="row"><span>一括(現金)総額</span><span class="big">${y(v+100000)}</span></div><div class="row"><span>補助金127万円差引後</span><span>${y(v+100000-1270000)}</span></div>`;
+else if(d>(v+99999)*.5)pay=`<div class="row"><span>${term}回・頭金${d/10000}万円</span><span>頭金上限超え</span></div>`;
+else{const cells=[];for(let j=0;j*5<=RR[term]*100+1e-9;j++){const r=j*5/100;cells.push(`<div class="cell${r==RR[term]&&r>0?" sel":""}">据置${j*5}%<b>${y(mon(v,term,d,r))}</b></div>`)}
+pay=`<div class="row"><span>月々(${term}回・頭金${d/10000}万円)</span><span></span></div><div class="grid">${cells.join("")}</div>`}
+return `<div class="mc"><h3>${t.n}</h3><div class="row"><span>航続 ${t.s[0]} / ${t.s[2]}</span><span>本体 ${y(t.p)}</span></div>
+外装色${opt(t,"paint",Object.entries(t.paint).map(([c,[n,p]])=>[c,n,p]),t.sel.paint)}
+ホイール${opt(t,"wheel",t.wheel.map(([n,p],j)=>[j,n,p]),t.sel.wheel)}
+インテリア${opt(t,"int",t.int.map(([n,p],j)=>[j,n,p]),t.sel.int)}
+<label><input type="checkbox" data-i="${t.i}" data-k="eap"${t.sel.eap?" checked":""}> オートパイロット +436,000円</label>
+<div class="row"><span>車両価格(選択後)</span><span><b>${y(v)}</b></span></div>${pay}</div>`}).join("")+`<p class="note">${term==120?"120回は据置率0%のみ(公式)。":term?"据置率=最終回に残す割合。赤枠は公式で選べる上限。":"注文手数料15,000円は別。"}</p>`;
+$("sp").querySelectorAll("select,input").forEach(e=>e.onchange=()=>{const t=T[e.dataset.i],k=e.dataset.k;t.sel[k]=k=="eap"?e.checked:k=="paint"?e.value:+e.value;render()})}
+function render(){renderSP();const G=T.filter(t=>model=="all"||t.m==model),d=+$("down").value;
 const head="<tr><th></th>"+G.map(t=>`<th>${t.n}</th>`).join("")+"</tr>",row=(l,f)=>`<tr><td>${l}</td>${G.map(f).join("")}</tr>`;
 const sel=(t,k,opts)=>`<select data-i="${t.i}" data-k="${k}">${opts}</select>`;
 $("spec").innerHTML=head
